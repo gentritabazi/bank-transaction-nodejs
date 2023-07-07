@@ -2,16 +2,16 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { UserRepository } from '../repositories/user.repository';
-
+import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: UserRepository,
+    private readonly userRepository: Repository<User>,
   ) {}
 
-  async getByEmail(email: string) {
+  async getOneByEmail(email: string) {
     return await this.userRepository
       .createQueryBuilder('user')
       .addSelect('user.password')
@@ -37,8 +37,17 @@ export class UserService {
       );
     }
 
-    const newUser = await this.userRepository.save(request);
+    const attributes = {
+      ...request,
+      password: await this.hashPassword(request.password),
+    };
+
+    const newUser = await this.userRepository.save(attributes);
 
     return newUser;
+  }
+
+  async hashPassword(passport: string) {
+    return await bcrypt.hash(passport, 10);
   }
 }
