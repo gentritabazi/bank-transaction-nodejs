@@ -8,9 +8,11 @@ export class UserController {
 
   @Post()
   async create(@Body() request: CreateUserDto) {
+    await this.userService.create(request);
+
     return {
-      statusCode: HttpStatus.OK,
-      user: await this.userService.create(request),
+      success: true,
+      message: 'The process was completed successfully!',
     };
   }
 }

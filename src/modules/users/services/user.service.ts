@@ -19,7 +19,7 @@ export class UserService {
       .getOne();
   }
 
-  async create(request: CreateUserDto): Promise<User> {
+  async create(request: CreateUserDto) {
     const querybuilder = this.userRepository
       .createQueryBuilder('user')
       .where('user.email = :email', { email: request.email });
@@ -42,9 +42,7 @@ export class UserService {
       password: await this.hashPassword(request.password),
     };
 
-    const newUser = await this.userRepository.save(attributes);
-
-    return newUser;
+    await this.userRepository.save(attributes);
   }
 
   async hashPassword(passport: string) {
