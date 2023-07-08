@@ -1,14 +1,12 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Transaction } from '../entities/transaction.entity';
 import { CreateTransactionDto } from '../dto/create-transaction.dto';
 import { DepositTransactionDto } from '../dto/deposit-transaction.dto';
 import { UserService } from '../../users/services/user.service';
+import { UserNotFoundException } from '../../users/exceptions/user-not-found.expection';
+import { InsufficientBalanceException } from '../exceptions/Insufficient-balance.exception';
 
 @Injectable()
 export class TransactionService {
@@ -24,7 +22,7 @@ export class TransactionService {
     const user = await this.userService.getOneById(user_id);
 
     if (!user) {
-      throw new NotFoundException('User not found.');
+      throw new UserNotFoundException();
     }
 
     const transaction = new Transaction();
@@ -45,11 +43,11 @@ export class TransactionService {
     const user = await this.userService.getOneById(user_id);
 
     if (!user) {
-      throw new NotFoundException('User not found.');
+      throw new UserNotFoundException();
     }
 
     if (user.balance < amount) {
-      throw new BadRequestException('Insufficient balance.');
+      throw new InsufficientBalanceException();
     }
 
     const transaction = new Transaction();
