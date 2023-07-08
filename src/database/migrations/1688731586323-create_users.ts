@@ -26,6 +26,20 @@ export class CreateUsers1688731586323 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'balance',
+            type: 'decimal',
+            precision: 10,
+            scale: 2,
+            default: 0,
+          },
+          {
+            name: 'bonus_balance',
+            type: 'decimal',
+            precision: 10,
+            scale: 2,
+            default: 0,
+          },
+          {
             name: 'password',
             type: 'varchar',
           },

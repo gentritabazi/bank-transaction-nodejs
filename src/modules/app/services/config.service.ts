@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { User } from 'src/modules/users/entities/user.entity';
 import * as dotenv from 'dotenv';
+import { User } from 'src/modules/users/entities/user.entity';
+import { Transaction } from 'src/modules/transactions/entities/transaction.entity';
 
 dotenv.config();
 
@@ -33,7 +34,7 @@ class ConfigService {
       username: this.getValue('DB_USERNAME'),
       password: this.getValue('DB_PASSWORD'),
       database: this.getValue('DB_DATABASE'),
-      entities: [User],
+      entities: [User, Transaction],
       ssl: this.isProduction(),
     };
   }

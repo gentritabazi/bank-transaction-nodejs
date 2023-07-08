@@ -4,12 +4,19 @@ import { User } from '../entities/user.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
+
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
+
+  async getOneById(id: number) {
+    return await this.userRepository.findOneBy({
+      id,
+    });
+  }
 
   async getOneByEmail(email: string) {
     return await this.userRepository
@@ -47,5 +54,9 @@ export class UserService {
 
   async hashPassword(passport: string) {
     return await bcrypt.hash(passport, 10);
+  }
+
+  async update(attributes) {
+    return await this.userRepository.save(attributes);
   }
 }
