@@ -2,6 +2,10 @@
 
 This project implements a RESTful API using NestJS and TypeORM that allows users to perform bank transactions and calculates bonuses based on certain conditions. Users can register, authenticate, perform transactions, and retrieve sorted lists of users based on their bonus balances.
 
+## Requirements
+
+Node.js >= 16.
+
 ## Installation
 
 - Clone this repository or download the source code.
