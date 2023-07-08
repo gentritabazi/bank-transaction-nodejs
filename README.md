@@ -46,3 +46,5 @@ Users:
 Sorting Users by Bonuses:
 
 - GET **/api/users/sorted-by-bonus**: Retrieve a sorted list of users based on their bonus balances in ascending order.
+
+For detailed API documentation and usage examples, please refer to the Swagger documentation http://localhost:3000/api.
