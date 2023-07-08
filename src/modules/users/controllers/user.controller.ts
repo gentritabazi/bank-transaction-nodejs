@@ -1,7 +1,8 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
 @Controller('api/users')
 export class UserController {
@@ -18,5 +19,16 @@ export class UserController {
       success: true,
       message: 'The process was completed successfully!',
     };
+  }
+
+  @Get('sorted-by-bonus')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      'Retrieve a sorted list of users based on their bonus balances in ascending order',
+  })
+  async getSortedUsersByBonus() {
+    return this.userService.getUsersSortedByBonus();
   }
 }

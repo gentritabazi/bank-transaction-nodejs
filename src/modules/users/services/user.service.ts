@@ -59,4 +59,10 @@ export class UserService {
   async update(attributes) {
     return await this.userRepository.save(attributes);
   }
+
+  async getUsersSortedByBonus() {
+    return this.userRepository.find({
+      order: { bonus_balance: 'ASC' },
+    });
+  }
 }
