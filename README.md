@@ -9,7 +9,8 @@ Node.js >= 16.
 ## Installation
 
 - Clone this repository or download the source code.
-- Open a terminal or command prompt and navigate to the project directory.
+- Navigate to the project directory.
+- Create the `.env` file (copy content from `.env.example`) and update the environment variables with your configuration. Make sure to provide the necessary database connection details.
 - Run the following command to install the dependencies: `npm install`.
 
 ## Database Migrations
