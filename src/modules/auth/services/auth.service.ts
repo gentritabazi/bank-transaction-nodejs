@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../../users/services/user.service';
 import { jwtContanst } from '../contants/jwt';
 import { LoginDto } from '../dto/login.dto';
+import { CredentialsNotMatchException } from '../exceptions/credentials-not-match.exception';
 
 @Injectable()
 export class AuthService {
@@ -15,9 +16,7 @@ export class AuthService {
     const user = await this.userService.getOneByEmail(email);
 
     if (!user) {
-      throw new UnauthorizedException(
-        `These credentials do not match our records.`,
-      );
+      throw new UnauthorizedException();
     }
 
     if (!(await user.validatePassword(password))) {
@@ -31,15 +30,11 @@ export class AuthService {
     const user = await this.userService.getOneByEmail(request.email);
 
     if (!user) {
-      throw new UnauthorizedException(
-        `These credentials do not match our records.`,
-      );
+      throw new CredentialsNotMatchException();
     }
 
     if (!(await user.validatePassword(request.password))) {
-      throw new UnauthorizedException(
-        'These credentials do not match our records!',
-      );
+      throw new CredentialsNotMatchException();
     }
 
     const payload = { email: user.email, sub: user.id };
