@@ -4,6 +4,7 @@ import { User } from '../entities/user.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
+import { UserEmailMustBeUniqueExpection } from '../exceptions/user-email-most-be-unique.expection';
 
 @Injectable()
 export class UserService {
@@ -34,14 +35,7 @@ export class UserService {
     const user = await querybuilder.getOne();
 
     if (user) {
-      throw new HttpException(
-        {
-          statusCode: HttpStatus.BAD_REQUEST,
-          errors: ['Email must be unique.'],
-          error: 'Bad Request',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new UserEmailMustBeUniqueExpection();
     }
 
     const attributes = {
