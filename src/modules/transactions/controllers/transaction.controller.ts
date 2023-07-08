@@ -3,10 +3,11 @@ import { TransactionService } from '../services/transaction.service';
 import { DepositTransactionDto } from '../dto/deposit-transaction.dto';
 import { CreateTransactionDto } from '../dto/create-transaction.dto';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 
 @Controller('api/transactions')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
